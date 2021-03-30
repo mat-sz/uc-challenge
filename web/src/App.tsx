@@ -7,6 +7,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import styled from 'styled-components';
 import 'react-toastify/dist/ReactToastify.css';
 
 import './App.scss';
@@ -15,12 +16,17 @@ import { Dashboard } from './screens/Dashboard';
 import { SignIn } from './screens/SignIn';
 import { SignUp } from './screens/SignUp';
 
+const Wrapper = styled.div`
+  margin: 0 auto;
+  max-width: 500px;
+`;
+
 export const App: React.FC = () => {
   const authenticated = useSelector((state: StateType) => state.authenticated);
 
   return (
     <Router>
-      <div className="app">
+      <Wrapper>
         {authenticated ? (
           <Switch>
             <Route path="/" exact>
@@ -44,7 +50,7 @@ export const App: React.FC = () => {
           </Switch>
         )}
         <ToastContainer />
-      </div>
+      </Wrapper>
     </Router>
   );
 };

@@ -1,8 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Input = styled.input``;
-const Label = styled.label``;
+const Label = styled.label`
+  display: block;
+  margin-top: 10px;
+`;
+const Input = styled.input`
+  display: block;
+  width: 100%;
+  border: 1px solid #666;
+  border-radius: 8px;
+  padding: 10px;
+`;
+const LabelText = styled.span`
+  display: block;
+  font-weight: bold;
+`;
+const LabelError = styled.span`
+  display: block;
+  color: red;
+  font-size: 0.8rem;
+`;
 
 export interface TextInputProps {
   type?: string;
@@ -23,9 +41,9 @@ export const TextInput: React.FC<TextInputProps> = ({
 }) => {
   return (
     <Label>
-      <span>{label}</span>
+      <LabelText>{label}</LabelText>
       <Input type={type} name={name} onChange={onChange} value={value} />
-      {error && <span>{error}</span>}
+      {error && <LabelError>{error}</LabelError>}
     </Label>
   );
 };

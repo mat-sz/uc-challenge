@@ -94,7 +94,7 @@ export const SignUp: React.FC = () => {
 
   return (
     <>
-      <AuthenticationBar isSignIn={true} />
+      <AuthenticationBar isSignIn={false} />
       <Form onSubmit={formik.handleSubmit}>
         <TextInput
           label="Username"

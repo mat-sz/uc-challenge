@@ -86,7 +86,6 @@ export const SignUp: React.FC = () => {
       return errors;
     },
     onSubmit: values => {
-      console.log('submit?');
       dispatch(
         signUp(values.username, values.password, values.fullName, values.email)
       );

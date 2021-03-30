@@ -1,6 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,14 +22,24 @@ export const App: React.FC = () => {
     <Router>
       <div className="app">
         {authenticated ? (
-          <Dashboard />
+          <Switch>
+            <Route path="/" exact>
+              <Dashboard />
+            </Route>
+            <Route>
+              <Redirect to="/" />
+            </Route>
+          </Switch>
         ) : (
           <Switch>
-            <Route path="/signup">
+            <Route path="/signup" exact>
               <SignUp />
             </Route>
-            <Route path="/">
+            <Route path="/signin" exact>
               <SignIn />
+            </Route>
+            <Route>
+              <Redirect to="/signin" />
             </Route>
           </Switch>
         )}

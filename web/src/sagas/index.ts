@@ -76,7 +76,6 @@ function* signIn(action: ActionModel) {
 }
 
 function* signUp(action: ActionModel) {
-  console.log('signup');
   const data = action.value as CreateUserRequest;
   if (!data.username || !data.password || !data.fullName || !data.email) {
     toast.error('Invalid data.');
@@ -112,9 +111,11 @@ function* signUp(action: ActionModel) {
 }
 
 function* signOut() {
-  yield updateAuthenticationState({
-    authenticated: false,
-  });
+  yield put(
+    updateAuthenticationState({
+      authenticated: false,
+    })
+  );
 }
 
 export function* root() {

@@ -1,3 +1,4 @@
+import { hash } from 'bcrypt';
 import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { OrmRepository } from 'typeorm-typedi-extensions';
@@ -25,11 +26,14 @@ export class UserService {
     return await this.userRepository.find();
   }
 
-  async add(name: string, fullName?: string, email?: string) {
+  async add(name: string, fullName: string, email: string, password: string) {
     const user = new User();
+    user.fullName = fullName;
     user.name = name;
     user.email = email;
+    user.password = await hash(password, 12);
     await this.userRepository.save(user);
+    return user;
   }
 
   async remove(user: User) {

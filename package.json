@@ -4,6 +4,16 @@
   "main": "index.js",
   "author": "Mat Sz",
   "private": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
   "workspaces": [
     "api",
     "web"
@@ -14,6 +24,9 @@
     "start": "npm-run-all --parallel start:*"
   },
   "dependencies": {
-    "npm-run-all": "^4.1.5"
+    "husky": "^6.0.0",
+    "lint-staged": "^10.5.4",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1"
   }
 }

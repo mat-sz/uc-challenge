@@ -14,7 +14,7 @@ import { ErrorHandler } from './middlewares/ErrorHandler';
 import { getJWTData, isAuthenticated, hasUserData } from './Authentication';
 import { UserService } from './services/UserService';
 
-export default async function App(ormconfig: any) {
+export default async function App(ormconfig: any, listen = true) {
   useContainerTO(Container);
   useContainerRC(Container);
 
@@ -40,11 +40,15 @@ export default async function App(ormconfig: any) {
       },
     });
 
-    const port = process.env.HTTP_PORT || 4000;
-    const ip = process.env.HTTP_IP || '127.0.0.1';
-    app.listen(port, ip);
+    if (listen) {
+      const port = process.env.HTTP_PORT || 4000;
+      const ip = process.env.HTTP_IP || '127.0.0.1';
+      app.listen(port, ip);
 
-    console.log('api listening on: ' + ip + ':' + port);
+      console.log('api listening on: ' + ip + ':' + port);
+    }
+
+    return app;
   } catch (e) {
     console.error(e);
   }

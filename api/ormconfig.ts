@@ -2,8 +2,8 @@ const env = process.env.NODE_ENV || 'dev';
 
 export = {
   type: 'sqlite',
-  database: '../db/' + env + '.db',
+  database: env === 'test' ? ':memory:' : '../db/' + env + '.db',
   synchronize: true,
-  logging: true,
+  logging: false,
   entities: ['src/entities/*.ts'],
 };

@@ -1,4 +1,4 @@
-import { put, takeEvery, select, call } from 'redux-saga/effects';
+import { put, takeEvery, call } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 
 import {

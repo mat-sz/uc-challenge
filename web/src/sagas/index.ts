@@ -22,6 +22,10 @@ function* updateUserData(token: string) {
       },
     });
 
+    if (res.status === 500) {
+      return {};
+    }
+
     return await res.json();
   });
 
@@ -57,6 +61,10 @@ function* signIn(action: ActionModel) {
       body: JSON.stringify(data),
     });
 
+    if (res.status === 500) {
+      return {};
+    }
+
     return await res.json();
   });
 
@@ -87,6 +95,10 @@ function* signUp(action: ActionModel) {
       },
       body: JSON.stringify(data),
     });
+
+    if (res.status === 500) {
+      return {};
+    }
 
     return await res.json();
   });

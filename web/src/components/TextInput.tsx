@@ -42,7 +42,13 @@ export const TextInput: React.FC<TextInputProps> = ({
   return (
     <Label>
       <LabelText>{label}</LabelText>
-      <Input type={type} name={name} onChange={onChange} value={value} />
+      <Input
+        type={type}
+        name={name}
+        onChange={onChange}
+        value={value}
+        alt={label}
+      />
       {error && <LabelError>{error}</LabelError>}
     </Label>
   );

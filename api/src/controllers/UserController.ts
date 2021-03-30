@@ -1,5 +1,5 @@
 import { Inject } from 'typedi';
-import { JsonController, Body, Put } from 'routing-controllers';
+import { JsonController, Body, Put, OnUndefined } from 'routing-controllers';
 
 import { AuthenticationService } from '../services/AuthenticationService';
 import { CreateUserRequest } from '../models/CreateUserRequest';
@@ -10,6 +10,7 @@ export class UserController {
   private authenticationService: AuthenticationService;
 
   @Put('/')
+  @OnUndefined(500)
   async create(@Body() request: CreateUserRequest) {
     return await this.authenticationService.createUser(request);
   }

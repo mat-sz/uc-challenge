@@ -10,7 +10,6 @@ import {
   ActionModel,
   AuthenticationRequest,
   AuthenticationResponse,
-  AuthenticationResponseResult,
   AuthenticationState,
   CreateUserRequest,
 } from '../types/Models';
@@ -63,11 +62,7 @@ function* signIn(action: ActionModel) {
 
   yield put(updateLoadingState(false));
 
-  if (
-    !res.result ||
-    res.result !== AuthenticationResponseResult.SUCCESS ||
-    !res.token
-  ) {
+  if (!res.token) {
     toast.error('Invalid username or password.');
     return;
   }
@@ -98,11 +93,7 @@ function* signUp(action: ActionModel) {
 
   yield put(updateLoadingState(false));
 
-  if (
-    !res.result ||
-    res.result !== AuthenticationResponseResult.SUCCESS ||
-    !res.token
-  ) {
+  if (!res.token) {
     toast.error('Invalid data.');
     return;
   }

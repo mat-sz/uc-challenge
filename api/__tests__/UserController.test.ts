@@ -1,13 +1,8 @@
 import request from 'supertest';
-import Container from 'typedi';
 
 import { createTestApp } from '../createTestApp';
-import { AuthenticationResponseResult } from '../src/models/AuthenticationResponse';
-import { AuthenticationService } from '../src/services/AuthenticationService';
-import { UserService } from '../src/services/UserService';
 
 let app: any;
-let token: string;
 
 const USER_DATA_VALID = {
   username: 'test1',
@@ -58,7 +53,6 @@ describe('UserController', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then(response => {
-        expect(response.body.result).toBe(AuthenticationResponseResult.SUCCESS);
         expect(response.body.token.length).not.toBe(0);
         expect(response.body.expiresIn).toBe(3600);
         done();
@@ -71,9 +65,8 @@ describe('UserController', () => {
       .put('/api/v1/user')
       .send(USER_DATA_INVALID_PASSWORD)
       .expect('Content-Type', /json/)
-      .expect(200)
-      .then(response => {
-        expect(response.body.result).toBe(AuthenticationResponseResult.FAILURE);
+      .expect(500)
+      .then(() => {
         done();
       })
       .catch(err => done(err));
@@ -84,9 +77,8 @@ describe('UserController', () => {
       .put('/api/v1/user')
       .send(USER_DATA_INVALID_NAME)
       .expect('Content-Type', /json/)
-      .expect(200)
-      .then(response => {
-        expect(response.body.result).toBe(AuthenticationResponseResult.FAILURE);
+      .expect(500)
+      .then(() => {
         done();
       })
       .catch(err => done(err));
@@ -97,9 +89,8 @@ describe('UserController', () => {
       .put('/api/v1/user')
       .send(USER_DATA_INVALID_EMAIL)
       .expect('Content-Type', /json/)
-      .expect(200)
-      .then(response => {
-        expect(response.body.result).toBe(AuthenticationResponseResult.FAILURE);
+      .expect(500)
+      .then(() => {
         done();
       })
       .catch(err => done(err));
@@ -110,9 +101,8 @@ describe('UserController', () => {
       .put('/api/v1/user')
       .send(USER_DATA_INVALID_EVERYTHING)
       .expect('Content-Type', /json/)
-      .expect(200)
-      .then(response => {
-        expect(response.body.result).toBe(AuthenticationResponseResult.FAILURE);
+      .expect(500)
+      .then(() => {
         done();
       })
       .catch(err => done(err));

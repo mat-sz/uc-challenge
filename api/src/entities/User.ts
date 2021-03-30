@@ -28,6 +28,7 @@ export class User {
   @Column()
   fullName: string;
 
+  @Index({ unique: true })
   @Column({ nullable: true })
   email?: string;
 

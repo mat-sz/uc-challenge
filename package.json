@@ -21,7 +21,10 @@
   "scripts": {
     "start:api": "cd api && npm run dev",
     "start:web": "cd web && npm run start",
-    "start": "npm-run-all --parallel start:*"
+    "test:api": "cd api && npm run test",
+    "test:web": "cd web && npm run test -- --watchAll=false",
+    "start": "npm-run-all --parallel start:*",
+    "test": "npm-run-all --sequential test:*"
   },
   "dependencies": {
     "husky": "^6.0.0",

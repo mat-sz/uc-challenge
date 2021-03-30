@@ -6,10 +6,7 @@ import { sign } from 'jsonwebtoken';
 
 import { User } from '../entities/User';
 import { AuthenticationRequest } from '../models/AuthenticationRequest';
-import {
-  AuthenticationResponse,
-  AuthenticationResponseResult,
-} from '../models/AuthenticationResponse';
+import { AuthenticationResponse } from '../models/AuthenticationResponse';
 import { JWTData, AuthenticationStatus } from '../models/JWTData';
 import { CreateUserRequest } from '../models/CreateUserRequest';
 
@@ -40,40 +37,34 @@ export class AuthenticationService {
 
   async authenticate(
     request: AuthenticationRequest
-  ): Promise<AuthenticationResponse> {
+  ): Promise<AuthenticationResponse | undefined> {
     const user = await this.userRepository.findOne({
       where: { name: request.username },
     });
 
     if (!user) {
-      return {
-        result: AuthenticationResponseResult.FAILURE,
-      };
+      return undefined;
     }
 
-    let result = AuthenticationResponseResult.FAILURE;
     let token: string | undefined = undefined;
     let expiresIn: number | undefined = undefined;
 
-    if (await compare(request.password, user.password)) {
-      result = AuthenticationResponseResult.SUCCESS;
+    if (!(await compare(request.password, user.password))) {
+      return undefined;
     }
 
-    if (result === AuthenticationResponseResult.SUCCESS) {
-      const data: JWTData = {
-        status: AuthenticationStatus.AUTHENTICATED,
-        uuid: user.uuid,
-        name: user.name,
-      };
+    const data: JWTData = {
+      status: AuthenticationStatus.AUTHENTICATED,
+      uuid: user.uuid,
+      name: user.name,
+    };
 
-      expiresIn = parseInt(process.env.JWT_EXPIRY);
-      token = sign(data, process.env.JWT_SECRET, {
-        expiresIn,
-      });
-    }
+    expiresIn = parseInt(process.env.JWT_EXPIRY);
+    token = sign(data, process.env.JWT_SECRET, {
+      expiresIn,
+    });
 
     return {
-      result,
       token,
       expiresIn,
     };
@@ -81,7 +72,7 @@ export class AuthenticationService {
 
   async createUser(
     request: CreateUserRequest
-  ): Promise<AuthenticationResponse> {
+  ): Promise<AuthenticationResponse | undefined> {
     if (
       !request ||
       typeof request.email !== 'string' ||
@@ -92,9 +83,7 @@ export class AuthenticationService {
       !validateName(request.fullName) ||
       !validatePassword(request.password)
     ) {
-      return {
-        result: AuthenticationResponseResult.FAILURE,
-      };
+      return undefined;
     }
 
     const user = this.userRepository.create();
@@ -112,7 +101,6 @@ export class AuthenticationService {
     };
 
     return {
-      result: AuthenticationResponseResult.SUCCESS,
       expiresIn,
       token: sign(data, process.env.JWT_SECRET, {
         expiresIn,

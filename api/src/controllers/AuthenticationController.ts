@@ -6,6 +6,7 @@ import {
   Body,
   CurrentUser,
   Put,
+  OnUndefined,
 } from 'routing-controllers';
 
 import { AuthenticationService } from '../services/AuthenticationService';
@@ -27,6 +28,7 @@ export class AuthenticationController {
   }
 
   @Post('/')
+  @OnUndefined(500)
   async authenticate(@Body() authenticationRequest: AuthenticationRequest) {
     return await this.authenticationService.authenticate(authenticationRequest);
   }
